@@ -26,8 +26,7 @@ def find(d, i):
 
     for k, v in d.items():
         if isinstance(v, dict):
-            for i in find(v, i):
-                yield i
+            yield from find(v, i)
 
 def getBotInfo(value):
     for val in find(botConfigData, 'bot'):
@@ -48,9 +47,8 @@ def GetAppId():
 def GetGuildId(serverName):
     if getBotInfo('type') != 'discord':
         raise RuntimeError('ERROR: This function/feature is only working with discord bots')
-    else:
-        for val in find(botwayConfigData, 'botway'):
-            return val['bots'][getBotInfo('name')]['guilds'][serverName]['server_id']
+    for val in find(botwayConfigData, 'botway'):
+        return val['bots'][getBotInfo('name')]['guilds'][serverName]['server_id']
 
 def GetSecret():
     for val in find(botwayConfigData, 'botway'):
